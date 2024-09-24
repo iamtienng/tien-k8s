@@ -17,6 +17,17 @@ cp token.csv ~/.minikube/files/etc/ca-certificates/token.csv
 # Start the minikube / Same command in Windows
 minikube start --driver docker --container-runtime docker --gpus all --extra-config=apiserver.token-auth-file=/etc/ca-certificates/token.csv --addons metrics-server
 
+# Install fluxcd
+curl -s https://fluxcd.io/install.sh | sudo bash
+
 # Set GitHub personal access token and username:
 export GITHUB_TOKEN=''
-export GITHUB_USER=''
+
+flux bootstrap github \
+--token-auth \
+--owner=iamtienng \
+--repository=tien-k8s \
+--branch=main \
+--components source-controller,kustomize-controller,helm-controller,notification-controller \
+--path=gitops/clusters/tien-k8s \
+--personal
