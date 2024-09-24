@@ -20,7 +20,7 @@ minikube start --driver docker --container-runtime docker --gpus all --extra-con
 # Install fluxcd
 curl -s https://fluxcd.io/install.sh | sudo bash
 
-# Set GitHub personal access token and username:
+# Set GitHub personal access token
 export GITHUB_TOKEN=''
 
 flux bootstrap github \
@@ -31,3 +31,9 @@ flux bootstrap github \
 --components source-controller,kustomize-controller,helm-controller,notification-controller \
 --path=gitops/clusters/tien-k8s \
 --personal
+
+# Decrypt age private key secret
+sops --decrypt -i infra/age-private-key-secret.yaml
+
+# Apply the secret to minikube
+kubectl apply -f age
