@@ -19,6 +19,7 @@ spec:
     remediation:
       retries: 3
   values:
+    # PGHOST="postgresql.database.svc"
     global:
       postgresql:
         auth:
