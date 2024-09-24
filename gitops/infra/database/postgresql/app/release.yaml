@@ -22,7 +22,9 @@ spec:
     global:
       postgresql:
         auth:
-          postgresPassword: ""
-          username: ""
-          password: ""
           database: "keycloak"
+          existingSecret: "database-credential"
+          secretKeys:
+            adminPasswordKey: "admin-password"
+            userPasswordKey: "user-password"
+            replicationPasswordKey: "replication-password"
