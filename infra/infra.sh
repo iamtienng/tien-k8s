@@ -17,6 +17,12 @@ cp token.csv ~/.minikube/files/etc/ca-certificates/token.csv
 # Start the minikube / Same command in Windows
 minikube start --driver docker --container-runtime docker --gpus all --extra-config=apiserver.token-auth-file=/etc/ca-certificates/token.csv --addons metrics-server
 
+# Decrypt age private key secret
+sops --decrypt -i infra/age-private-key-secret.yaml
+
+# Apply the secret to minikube
+kubectl apply -f infra/age-private-key-secret.yaml
+
 # Install fluxcd
 curl -s https://fluxcd.io/install.sh | sudo bash
 
@@ -31,9 +37,3 @@ flux bootstrap github \
 --components source-controller,kustomize-controller,helm-controller,notification-controller \
 --path=gitops/clusters/tien-k8s \
 --personal
-
-# Decrypt age private key secret
-sops --decrypt -i infra/age-private-key-secret.yaml
-
-# Apply the secret to minikube
-kubectl apply -f infra/age-private-key-secret.yaml
