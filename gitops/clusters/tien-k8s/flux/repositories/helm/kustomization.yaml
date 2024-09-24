@@ -5,3 +5,4 @@ resources:
   - ./cloudflare.yaml
   - ./bitnami.yaml
   - ./codecentric.yaml
+  - ./strimzi.yaml
