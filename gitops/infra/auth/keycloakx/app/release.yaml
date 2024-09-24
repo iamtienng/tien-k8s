@@ -1,0 +1,55 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: keycloakx
+  namespace: auth
+spec:
+  releaseName: keycloakx
+  chart:
+    spec:
+      chart: keycloakx
+      version: 2.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: codecentric
+        namespace: flux-system
+  interval: 50m
+  install:
+    remediation:
+      retries: 3
+  values:
+    command:
+      - "/opt/keycloak/bin/kc.sh"
+      - "start"
+      - "--http-port=8080"
+      - "--hostname-strict=false"
+    extraEnv: |
+      - name: KEYCLOAK_ADMIN
+        valueFrom:
+          secretKeyRef:
+            name: keycloakx-creds
+            key: admin-username
+      - name: KEYCLOAK_ADMIN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: keycloakx-creds
+            key: admin-password
+      - name: KC_PROXY
+        value: "edge"
+      - name: JAVA_OPTS_APPEND
+        value: >-
+          -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
+    database:
+      existingSecret: "keycloakx-creds"
+      existingSecretKey: "database-password"
+      vendor: postgres
+      hostname: postgresql.database.svc
+      port: 5432
+      database: keycloak
+      username: tienk8srootuser
+    http:
+      # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
+      relativePath: "/"
+    proxy:
+      enabled: true
+      mode: xforwarded
