@@ -36,4 +36,4 @@ flux bootstrap github \
 sops --decrypt -i infra/age-private-key-secret.yaml
 
 # Apply the secret to minikube
-kubectl apply -f age
+kubectl apply -f infra/age-private-key-secret.yaml
