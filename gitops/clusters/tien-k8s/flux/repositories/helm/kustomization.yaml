@@ -6,3 +6,4 @@ resources:
   - ./bitnami.yaml
   - ./codecentric.yaml
   - ./strimzi.yaml
+  - ./kafbat.yaml

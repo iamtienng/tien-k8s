@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &name kafka-ui
+  namespace: kafka
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: *name
+      version: "1.4.2"
+      sourceRef:
+        kind: HelmRepository
+        name: kafbat
+        namespace: flux-system
+      interval: 5m
+  releaseName: *name
+  install:
+    remediation:
+      retries: 3
+  values:
+    yamlApplicationConfig:
+      kafka:
+        clusters:
+          - name: caba-kafka-cluster
+            bootstrapServers: caba-kafka-cluster-kafka-bootstrap.kafka.svc:9092
+    env:
+      - name: DYNAMIC_CONFIG_ENABLED
+        value: 'true'
+      - name: KAFKA_CLUSTERS_0_NAME
+        value: 'caba-kafka-cluster'
+      - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+        value: 'caba-kafka-cluster-kafka-bootstrap.kafka.svc:9093'
+      - name: KAFKA_CLUSTERS_0_SSL_TRUSTSTORELOCATION
+        value: '/etc/kafka/secrets'
+      - name: KAFKA_CLUSTERS_0_SSL_TRUSTSTOREPASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: caba-kafka-cluster-cluster-ca-cert
+            key: ca.password
+      - name: KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL
+        value: 'SASL_SSL'
+      - name: KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM
+        value: 'SCRAM-SHA-512'
+      - name: USER_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: iamtienng
+            key: password
+      - name: KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG
+        value: 'org.apache.kafka.common.security.scram.ScramLoginModule required username=\"iamtienng\" password=\"${USER_PASSWORD}\"'
+    volumeMounts:
+      - name: kafka-certs
+        mountPath: "/etc/kafka/secrets"
+        readOnly: true
+    volumes:
+      - name: kafka-certs
+        secret:
+          secretName: caba-kafka-cluster-cluster-ca-cert
