@@ -42,10 +42,10 @@ spec:
       - name: USER_PASSWORD
         valueFrom:
           secretKeyRef:
-            name: iamtienng
+            name: super-user
             key: password
       - name: KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG
-        value: 'org.apache.kafka.common.security.scram.ScramLoginModule required username="iamtienng" password="${USER_PASSWORD}";'
+        value: 'org.apache.kafka.common.security.scram.ScramLoginModule required username="super-user" password="${USER_PASSWORD}";'
     volumeMounts:
       - name: kafka-certs
         mountPath: "/etc/kafka/secrets"
