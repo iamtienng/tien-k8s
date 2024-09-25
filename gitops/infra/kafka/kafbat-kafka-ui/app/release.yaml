@@ -29,7 +29,7 @@ spec:
       - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
         value: 'caba-kafka-cluster-kafka-bootstrap.kafka.svc:9093'
       - name: KAFKA_CLUSTERS_0_SSL_TRUSTSTORELOCATION
-        value: '/etc/kafka/secrets'
+        value: '/etc/kafka/secrets/ca.p12'
       - name: KAFKA_CLUSTERS_0_SSL_TRUSTSTOREPASSWORD
         valueFrom:
           secretKeyRef:
@@ -45,7 +45,7 @@ spec:
             name: iamtienng
             key: password
       - name: KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG
-        value: 'org.apache.kafka.common.security.scram.ScramLoginModule required username=\"iamtienng\" password=\"${USER_PASSWORD}\"'
+        value: 'org.apache.kafka.common.security.scram.ScramLoginModule required username="iamtienng" password="${USER_PASSWORD}";'
     volumeMounts:
       - name: kafka-certs
         mountPath: "/etc/kafka/secrets"
