@@ -5,4 +5,4 @@ resources:
   - ./strimzi-kafka-operator/ks.yaml
   - ./kafka-cluster/ks.yaml
   - ./kafka-user/ks.yaml
-  # - ./kafbat-kafka-ui/ks.yaml
+  - ./kafbat-kafka-ui/ks.yaml
