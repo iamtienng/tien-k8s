@@ -7,7 +7,7 @@ metadata:
     strimzi.io/cluster: caba-kafka-cluster
 spec:
   authentication:
-    type: scram-sha-512
+    type: tls
   authorization:
     type: simple
     acls:
