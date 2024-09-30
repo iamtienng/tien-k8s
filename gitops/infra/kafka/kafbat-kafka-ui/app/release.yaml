@@ -36,21 +36,25 @@ spec:
             name: caba-kafka-cluster-cluster-ca-cert
             key: ca.password
       - name: KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL
-        value: 'SASL_SSL'
-      - name: KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM
-        value: 'SCRAM-SHA-512'
-      - name: USER_PASSWORD
+        value: 'SSL'
+      - name: KAFKA_CLUSTERS_0_PROPERTIES_KEYSTORELOCATION
+        value: '/etc/kafka/secrets/user/user.p12'
+      - name: KAFKA_CLUSTERS_0_PROPERTIES_KEYSTOREPASSWORD
         valueFrom:
           secretKeyRef:
-            name: super-user
-            key: password
-      - name: KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG
-        value: 'org.apache.kafka.common.security.scram.ScramLoginModule required username="super-user" password="${USER_PASSWORD}";'
+            name: iamtienng
+            key: user.password
     volumeMounts:
       - name: kafka-certs
         mountPath: "/etc/kafka/secrets"
+        readOnly: true
+      - name: kafka-user-secret
+        mountPath: "/etc/kafka/secrets/user"
         readOnly: true
     volumes:
       - name: kafka-certs
         secret:
           secretName: caba-kafka-cluster-cluster-ca-cert
+      - name: kafka-user-secret
+        secret:
+          secretName: iamtienng
