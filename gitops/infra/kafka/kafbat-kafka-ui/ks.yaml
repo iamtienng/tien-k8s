@@ -9,6 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  path: ./gitops/infra/kafka/kafbat-kafka-ui/app
   prune: true
   sourceRef:
     kind: GitRepository
