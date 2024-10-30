@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./cloudflare.yaml
   - ./bitnami.yaml
+  - ./jetstack.yaml
   - ./codecentric.yaml
   - ./strimzi.yaml
   - ./kafbat.yaml
