@@ -8,3 +8,4 @@ resources:
   - ./codecentric.yaml
   - ./strimzi.yaml
   - ./kafbat.yaml
+  - ./ark.yaml
