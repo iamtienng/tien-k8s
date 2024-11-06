@@ -27,7 +27,7 @@ spec:
         message: Welcome to Tim ARK Server
         map: Extinction
         password: UJggqzYXWdtnvpG8QLEY
-        maxPlayers: 30
+        maxPlayers: 10
         rcon:
           password: 3eVRqQWwjqOlriGckOOR
     service:
