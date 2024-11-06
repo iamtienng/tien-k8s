@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./gitops/infra/database/ark-cluster/base
+  path: ./gitops/app/ark/ark-cluster/base
   prune: true
   sourceRef:
     kind: GitRepository
