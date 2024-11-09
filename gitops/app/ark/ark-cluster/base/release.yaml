@@ -32,6 +32,6 @@ spec:
           password: 3eVRqQWwjqOlriGckOOR
     service:
       enabled: true
-      type: ClusterIP
+      # type: ClusterIP
     persistence:
       enabled: true
