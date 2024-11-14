@@ -5,6 +5,7 @@ resources:
   - ./cloudflare.yaml
   - ./bitnami.yaml
   - ./jetstack.yaml
+  - ./istio.yaml
   - ./codecentric.yaml
   - ./strimzi.yaml
   - ./kafbat.yaml
